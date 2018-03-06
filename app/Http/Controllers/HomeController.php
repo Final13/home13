@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
 
-        $request->user()->authorizeRoles(['manager']);
+//        $request->user()->authorizeRoles(['manager']);
 
         $projects = Project::query()->where('user_id', Auth::user()->id);
 

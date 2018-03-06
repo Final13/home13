@@ -8,13 +8,42 @@
                     <div class="card-header">Registered users</div>
                     <div class="card-header"><a href="{{ route('add-user') }}">Create new user</a></div>
                     <div class="card-body">
-                        @foreach($users as $user)
-                            {{ $user->first_name }}
-                            {{ $user->last_name }}
-                            <a href="{{ route('delete-user', ['id' => $user->id]) }}">Delete</a>
-                            <a href="{{ route('edit-user', ['id' => $user->id]) }}">Edit</a><br />
-                        @endforeach
 
+                        <table class="table">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">first_name</th>
+                                <th scope="col">last_name</th>
+                                <th scope="col">birthday</th>
+                                <th scope="col">
+                                    Edit/Delete
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                        @foreach($users as $user)
+                            {{--<div class="card-header">--}}
+                                {{--{{ $user->first_name }}&nbsp--}}
+                                {{--{{ $user->last_name }}<br>--}}
+                                {{--{{ $user->birthday }}<br>--}}
+                                {{--<a href="{{ route('delete-user', ['id' => $user->id]) }}"><i class="fas fa-trash-alt"></i></a>--}}
+                                {{--<a href="{{ route('edit-user', ['id' => $user->id]) }}"><i class="fas fa-pencil-alt"></i></a><br>--}}
+                            {{--</div>--}}
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $user->first_name }}</td>
+                                <td>{{ $user->last_name }}</td>
+                                <td>{{ $user->birthday }}</td>
+                                <td>
+                                    <a href="{{ route('edit-user', ['id' => $user->id]) }}"><i class="fas fa-pencil-alt"></i></a>
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    <a href="{{ route('delete-user', ['id' => $user->id]) }}"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
