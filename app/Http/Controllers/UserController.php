@@ -9,6 +9,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\User;
 use Illuminate\Http\Request;
 use App\Role;
@@ -33,7 +35,7 @@ class UserController extends Controller
 
     }
 
-    public function saveUser(Request $request)
+    public function saveUser(UserCreateRequest $request)
     {
 
         $user = User::create([
@@ -66,7 +68,7 @@ class UserController extends Controller
         return view('users.edit', ['user' => $user]);
     }
 
-    public function updateUser(Request $request)
+    public function updateUser(UserUpdateRequest $request)
     {
         $user = User::find($request->input('id'));
         $user->fill($request->all());
@@ -74,4 +76,6 @@ class UserController extends Controller
 
         return redirect()->route('users');
     }
+
+
 }

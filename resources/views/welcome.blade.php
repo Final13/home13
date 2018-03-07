@@ -69,7 +69,10 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('users/index') }}">Users</a>
+                        @if(Auth::user()->isAdmin())
+                            <a href="{{ url('users/index') }}">Users</a>
+                            <a href="{{ url('projects') }}">Projects</a>
+                        @endif
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>

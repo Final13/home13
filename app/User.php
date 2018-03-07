@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -59,6 +60,19 @@ class User extends Authenticatable
     public function hasRole($role)
     {
         return null !== $this->roles()->where('name', $role)->first();
+    }
+
+    /**
+     * @return int|string
+     */
+    public function daysToBirthday()
+    {
+        if (!$this->birthday)
+            return '--';
+
+        $birthday = Carbon::parse($this->birthday)->endOfDay()->year(date('Y'));
+
+        return $birthday->diffInDays();
     }
 
 }
