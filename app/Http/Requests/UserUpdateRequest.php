@@ -3,10 +3,12 @@
 namespace App\Http\Requests;
 
 use App\Rules\ExistSpaceRule;
-use http\Env\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * @property mixed id
+ */
 class UserUpdateRequest extends FormRequest
 {
     /**
@@ -29,12 +31,15 @@ class UserUpdateRequest extends FormRequest
         return [
             'first_name' => ['required', 'string', 'max:255', new ExistSpaceRule],
             'last_name' => ['required', 'string', 'max:255', new ExistSpaceRule],
-            'email' => 'required|string|email|max:255',
-//            'email' => [
-//                'required',
-//                'email',
-//                Rule::unique('users', 'email')->ignore(request()->user()->id),
-//            ],
+
+            'email' => [
+                'string',
+                'max:255',
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($this->id),
+            ],
+
             'birthday' => ['required', 'date', 'before:18 years ago'],
         ];
     }

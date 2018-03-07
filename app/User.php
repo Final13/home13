@@ -6,6 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property mixed birthday
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -71,7 +74,7 @@ class User extends Authenticatable
             return '--';
 
         $birthday = Carbon::parse($this->birthday)->endOfDay()->year(date('Y'));
-
+        
         return $birthday->diffInDays();
     }
 

@@ -29,7 +29,7 @@
                                 <td>{{ $user->last_name }}</td>
                                 <td>{{ $user->daysToBirthday() }}</td>
                                 <td class="actions">
-                                    <a style="margin-right: 20px;" href="{{ route('edit-user', ['id' => $user->id]) }}"><i class="fas fa-pencil-alt"></i></a>
+                                    <a style="margin-right: 10px;" href="{{ route('edit-user', ['id' => $user->id]) }}"><i class="fas fa-pencil-alt"></i></a>
                                     <a href="{{ route('delete-user', ['id' => $user->id]) }}"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
