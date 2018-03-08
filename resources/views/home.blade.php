@@ -6,7 +6,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Dashboard</div>
-                {{--{{ dd($projects) }}--}}
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -14,7 +13,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    Here must be Personal Area?(With personal projects may be)
                 </div>
             </div>
         </div>
