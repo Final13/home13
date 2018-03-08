@@ -8,17 +8,32 @@
                 <div class="card">
                     <div class="card-header"><a href="{{ route('add-project') }}">Click here to create new project</a></div>
 
-                    <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Project name</th>
+                            <th scope="col">Start date</th>
+                            <th scope="col">End date</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
                         @foreach($projects as $item)
-                            <a href="{{ route('view-project', ['id' => $item->id]) }}">{{ $item->name }}</a><br>
-                            <span style="margin-right: 10px">Begin:</span>{{ $item->start_date }}<br>
-                            <span style="margin-right: 10px">End:</span>{{ $item->end_date }}<br>
-                            <a href="{{ route('delete-project', ['id' => $item->id]) }}"><i class="fas fa-trash-alt"></i></a>
-                            <a href="{{ route('edit-project', ['id' => $item->id]) }}"><i class="fas fa-pencil-alt"></i></a><br />
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td><a href="{{ route('view-project', ['id' => $item->id]) }}">{{ $item->name }}</a></td>
+                                <td>{{ $item->start_date }}</td>
+                                <td>{{ $item->end_date }}</td>
+                                <td class="actions">
+                                    <a style="margin-right: 10px;" href="{{ route('edit-project', ['id' => $item->id]) }}"><i class="fas fa-pencil-alt"></i></a>
+                                    <a href="{{ route('delete-project', ['id' => $item->id]) }}"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
                         @endforeach
+                        </tbody>
+                    </table>
 
-
-                    </div>
                 </div>
             </div>
         </div>

@@ -74,7 +74,7 @@ class User extends Authenticatable
             return '--';
 
         $birthday = Carbon::parse($this->birthday)->endOfDay()->year(date('Y'));
-        
+
         return $birthday->diffInDays();
     }
 

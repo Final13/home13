@@ -36,6 +36,7 @@
 
                                 {{ $project->end_date }}
 
+
                             </div>
                         </div>
 
