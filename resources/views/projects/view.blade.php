@@ -10,7 +10,7 @@
                     <div class="card-body">
 
                         <div class="form-group row">
-                            <label for="name" class="col-sm-4 col-form-label text-md-right">Name</label>
+                            <label for="name" class="col-sm-4 col-form-label text-md-right">Name:</label>
 
                             <div class="col-md-6">
 
@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="start_date" class="col-sm-4 col-form-label text-md-right">start_date</label>
+                            <label for="start_date" class="col-sm-4 col-form-label text-md-right">Start Date:</label>
 
                             <div class="col-md-6">
 
@@ -30,7 +30,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="end_date" class="col-sm-4 col-form-label text-md-right">end_date</label>
+                            <label for="end_date" class="col-sm-4 col-form-label text-md-right">End Date:</label>
 
                             <div class="col-md-6">
 

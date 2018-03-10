@@ -9,7 +9,7 @@
                         Registered users
                         <a style="float:right;" href="{{ route('add-user') }}">Create new user</a>
                     </div>
-                    <div class="card-body">
+
 
                         <table class="table">
                             <thead class="thead-light">
@@ -36,7 +36,7 @@
                         @endforeach
                             </tbody>
                         </table>
-                    </div>
+
                 </div>
             </div>
         </div>

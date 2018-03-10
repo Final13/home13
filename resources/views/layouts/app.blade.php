@@ -41,6 +41,9 @@
                                 <li><a class="nav-link" href="{{url('users/index') }}">Users</a></li>
                                 <li><a class="nav-link" href="{{url('projects') }}">Projects</a></li>
                             @endif
+
+                                <li><a class="nav-link" href="{{ url('/home') }}">Home</a></li>
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>

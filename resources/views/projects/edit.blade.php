@@ -15,34 +15,40 @@
                                 <label for="name" class="col-sm-4 col-form-label text-md-right">Name</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" name="name" class="form-control" value="{{ $project->name }}" required autofocus>
+                                    <input id="name" name="name" class="form-control" value="{{ $project->name }}"
+                                           required autofocus>
 
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="start_date" class="col-sm-4 col-form-label text-md-right">start_date</label>
+                                <label for="start_date" class="col-sm-4 col-form-label text-md-right">Start Date</label>
 
                                 <div class="col-md-6">
-                                    <input id="start_date" name="start_date" class="form-control" value="{{ $project->start_date }}" required >
+                                    <input id="start_date" name="start_date" class="form-control"
+                                           value="{{ $project->start_date }}" required>
 
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="end_date" class="col-sm-4 col-form-label text-md-right">end_date</label>
+                                <label for="end_date" class="col-sm-4 col-form-label text-md-right">End Date</label>
 
                                 <div class="col-md-6">
-                                    <input id="end_date" name="end_date" class="form-control" value="{{ $project->end_date }}" required >
+                                    <input id="end_date" name="end_date" class="form-control"
+                                           value="{{ $project->end_date }}" required>
 
                                 </div>
                             </div>
                             <input type="hidden" name="id" value="{{ $project->id }}">
 
                             <div class="form-group row">
-                                <label for="is_finished" class="col-sm-4 col-form-label text-md-right">is_finished</label>
+                                <label for="is_finished" class="col-sm-4 col-form-label text-md-right">Is
+                                    Finished:</label>
                                 <div class="col-md-6">
-                                    <input type="checkbox" id="is_finished" name="is_finished" value="{{ $project->is_finished }}">
+                                    {{--<input type="checkbox" id="is_finished" name="is_finished" value="{{ $project->is_finished }}">--}}
+                                    <input type="radio" id="is_finished" name="is_finished" value="1">Finished<br>
+                                    <input type="radio" id="is_finished" name="is_finished" value="0">Not Finished<br>
                                 </div>
                             </div>
 

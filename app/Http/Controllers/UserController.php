@@ -39,10 +39,10 @@ class UserController extends Controller
     {
 
         $user = User::create([
-            'first_name'     => $request['first_name'],
-            'last_name'     => $request['last_name'],
-            'email'    => $request['email'],
-            'birthday'    => $request['birthday'],
+            'first_name' => $request['first_name'],
+            'last_name' => $request['last_name'],
+            'email' => $request['email'],
+            'birthday' => $request['birthday'],
             'password' => bcrypt($request['password']),
         ]);
         $user
@@ -58,7 +58,7 @@ class UserController extends Controller
         $user = User::find($request->route('id'));
         $user->delete();
 
-        return redirect('users.index');
+        return redirect('users/index');
     }
 
     public function editUser(Request $request)

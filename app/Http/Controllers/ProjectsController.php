@@ -30,7 +30,7 @@ class ProjectsController extends Controller
 
     }
 
-    public function addProject(Request $request)
+    public function addProject()
     {
         return view('projects.add');
 
