@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header"><a href="{{ route('add-project') }}">Click here to create new project</a></div>
+                    <div class="card-header"><a style="float:right;" href="{{ route('add-project') }}">Click here to create new project</a></div>
 
                     <table class="table">
                         <thead class="thead-light">
