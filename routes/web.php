@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('projects')->group(function () {
-    Route::get('/', 'ProjectsController@index')->name('projects');
+    Route::get('index', 'ProjectsController@index')->name('projects');
     Route::get('add', 'ProjectsController@addProject')->name('add-project');
     Route::post('add', 'ProjectsController@saveProject')->name('save-project');
     Route::get('delete/{id}', 'ProjectsController@deleteProject')->name('delete-project');
@@ -36,4 +36,15 @@ Route::prefix('users')->middleware(['admin'])->group(function () {
     Route::get('delete/{id}', 'UserController@deleteUser')->name('delete-user');
     Route::get('edit/{id}', 'UserController@editUser')->name('edit-user');
     Route::post('edit', 'UserController@updateUser')->name('update-user');
+});
+
+Route::prefix('events')->group(function ()
+{
+    Route::get('index', 'EventsController@index')->name('events');
+    Route::get('add', 'EventsController@addEvent')->name('add-event');
+    Route::post('add', 'EventsController@saveEvent')->name('save-event');
+    Route::get('delete/{id}', 'EventsController@deleteEvent')->name('delete-event');
+    Route::get('edit/{id}', 'EventsController@editEvent')->name('edit-event');
+    Route::post('edit', 'EventsController@updateEvent')->name('update-event');
+    Route::get('view/{id}', 'EventsController@viewEvent')->name('view-event');
 });

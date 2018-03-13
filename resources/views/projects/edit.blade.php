@@ -15,8 +15,7 @@
                                 <label for="name" class="col-sm-4 col-form-label text-md-right">Name</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" name="name" class="form-control" value="{{ $project->name }}"
-                                           required autofocus>
+                                    <input id="name" name="name" class="form-control" value="{{ $project->name }}" required autofocus>
 
                                 </div>
                             </div>
@@ -43,12 +42,12 @@
                             <input type="hidden" name="id" value="{{ $project->id }}">
 
                             <div class="form-group row">
-                                <label for="is_finished" class="col-sm-4 col-form-label text-md-right">Is
-                                    Finished:</label>
+                                <label for="is_finished" class="col-sm-4 col-form-label text-md-right">Is Finished:</label>
                                 <div class="col-md-6">
-                                    {{--<input type="checkbox" id="is_finished" name="is_finished" value="{{ $project->is_finished }}">--}}
-                                    <input type="radio" id="is_finished" name="is_finished" value="1">Finished<br>
-                                    <input type="radio" id="is_finished" name="is_finished" value="0">Not Finished<br>
+                                    <input type="hidden" id="is_finished" name="is_finished" value="0">
+                                    <input style="text-align:center; vertical-align:middle" type="checkbox" id="is_finished" name="is_finished" value="1">
+                                    {{--<input type="radio" id="is_finished" name="is_finished" value="1">Finished<br>--}}
+                                    {{--<input type="radio" id="is_finished" name="is_finished" value="0">Not Finished<br>--}}
                                 </div>
                             </div>
 

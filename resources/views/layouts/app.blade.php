@@ -39,9 +39,9 @@
                         @else
                             @if(Auth::user()->isAdmin())
                                 <li><a class="nav-link" href="{{url('users/index') }}">Users</a></li>
-                                <li><a class="nav-link" href="{{url('projects') }}">Projects</a></li>
+                                <li><a class="nav-link" href="{{url('projects/index') }}">Projects</a></li>
                             @endif
-
+                                <li><a class="nav-link" href="{{ url('events/index') }}">Events</a></li>
                                 <li><a class="nav-link" href="{{ url('/home') }}">Home</a></li>
 
                             <li class="nav-item dropdown">
