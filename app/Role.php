@@ -11,9 +11,4 @@ class Role extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function adminId()
-    {
-        $adminid = Role::where('name', 'manager')->id;
-        return $adminid;
-    }
 }

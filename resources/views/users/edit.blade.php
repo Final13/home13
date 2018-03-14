@@ -60,7 +60,9 @@
                                 <label for="birthday" class="col-sm-4 col-form-label text-md-right">Birthday</label>
 
                                 <div class="col-md-6">
-                                    <input id="birthday" type="date" name="birthday" class="form-control{{ $errors->has('birthday') ? ' is-invalid' : '' }}" value="{{ old('birthday', $user->birthday) }}" required >
+                                    <input id="birthday" type="date" name="birthday"
+                                           class="form-control{{ $errors->has('birthday') ? ' is-invalid' : '' }}"
+                                           value="{{ old('birthday', $user->birthday) }}" required >
 
                                     @if ($errors->has('birthday'))
                                         <span class="invalid-feedback">

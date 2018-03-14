@@ -13,6 +13,7 @@
                         <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Name</th>
                             <th scope="col">Event type</th>
                             <th scope="col">Start date</th>
                             <th scope="col">End date</th>
@@ -23,7 +24,8 @@
                         @foreach($events as $event)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td><a href="{{ route('view-event', ['id' => $event->id]) }}">{{ $event->type }}</a></td>
+                                <td>{{ $event->user->full_name }}</td>
+                                <td>{{ $event->type }}</td>
                                 <td>{{ $event->start_date }}</td>
                                 <td>{{ $event->end_date }}</td>
                                 <td class="actions">

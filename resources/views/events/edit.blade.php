@@ -15,12 +15,21 @@
                                 <label for="user" class="col-sm-4 col-form-label text-md-right">User</label>
 
                                 <div class="col-md-6">
-                                    <select name="category" class="form-control" autofocus required>
+                                    <select name="user_id"
+                                            class="form-control{{ $errors->has('user_id') ? ' is-invalid' : '' }}"
+                                            autofocus required>
                                         <option value="0">Select User</option>
                                         @foreach($users as $user)
                                             <option value="{{  $user->id }}" {{ $user->id === $event->user_id ? "selected='selected'" : "" }}>{{ $user->first_name }} {{ $user->last_name }}</option>
                                         @endforeach
                                     </select>
+
+                                    @if ($errors->has('user_id'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('user_id') }}</strong>
+                                    </span>
+                                    @endif
+
                                 </div>
                             </div>
 
@@ -28,11 +37,17 @@
                                 <label for="type" class="col-sm-4 col-form-label text-md-right">Type</label>
 
                                 <div class="col-md-6">
-                                    <select name="category" class="form-control" autofocus required>
+                                    <select name="type" class="form-control" autofocus required>
                                         {{--<option value="{{ $event->type }}">{{ $event->type }}</option>--}}
-                                        <option value="Holiday" {{ $event->type === "Holiday" ? "selected='selected'" : "" }}>Holiday</option>
-                                        <option value="Sickness"{{ $event->type === "Sickness" ? "selected='selected'" : "" }}>Sickness</option>
-                                        <option value="Corporate"{{ $event->type === "Corporate" ? "selected='selected'" : "" }}>Corporate</option>
+                                        <option value="Day off" {{ $event->type === "Day off" ? "selected='selected'" : "" }}>
+                                            Day off
+                                        </option>
+                                        <option value="Sickness"{{ $event->type === "Sickness" ? "selected='selected'" : "" }}>
+                                            Sickness
+                                        </option>
+                                        <option value="Vacation"{{ $event->type === "Vacation" ? "selected='selected'" : "" }}>
+                                            Vacation
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -41,8 +56,15 @@
                                 <label for="start_date" class="col-sm-4 col-form-label text-md-right">Start Date</label>
 
                                 <div class="col-md-6">
-                                    <input id="start_date" name="start_date" class="form-control"
+                                    <input id="start_date" name="start_date"
+                                           class="form-control{{ $errors->has('start_date') ? ' is-invalid' : '' }}"
                                            value="{{ $event->start_date }}" required>
+
+                                    @if ($errors->has('start_date'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('start_date') }}</strong>
+                                    </span>
+                                    @endif
 
                                 </div>
                             </div>
@@ -51,8 +73,14 @@
                                 <label for="end_date" class="col-sm-4 col-form-label text-md-right">End Date</label>
 
                                 <div class="col-md-6">
-                                    <input id="end_date" name="end_date" class="form-control"
+                                    <input id="end_date" name="end_date" class="form-control{{ $errors->has('end_date') ? ' is-invalid' : '' }}"
                                            value="{{ $event->end_date }}" required>
+
+                                    @if ($errors->has('end_date'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('end_date') }}</strong>
+                                    </span>
+                                    @endif
 
                                 </div>
                             </div>
