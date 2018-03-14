@@ -77,7 +77,9 @@ class User extends Authenticatable
         $birthday = Carbon::parse($this->birthday)->endOfDay()->year(date('Y'));
 
         return $birthday->diffForHumans();
+//        return $birthday->diff(Carbon::now())->days < 1 ? 'today' : $birthday->diffForHumans();
     }
+
 
     public function getFullNameAttribute()
     {

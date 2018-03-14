@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Events extends Model
 {
+    public $table = 'events';
+
     protected $fillable = [
         'type', 'start_date', 'end_date', 'user_id',
     ];
