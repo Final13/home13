@@ -26,7 +26,7 @@ class EventsController extends Controller
 
         $_events = $users->map(function($item, $key) {
             $item['type'] = 'Birthday';
-            $item['start_date']= $this->getBirthday($item->birthday);
+            $item['start_date']= '=)';
             $item['end_date']= $this->getBirthday($item->birthday);
             $item['user'] = $item;
 

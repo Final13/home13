@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @property mixed birthday
@@ -74,12 +75,11 @@ class User extends Authenticatable
         if (!$this->birthday)
             return '--';
 
-        $birthday = Carbon::parse($this->birthday)->endOfDay()->year(date('Y'));
+        $birthday = Carbon::parse($this->birthday)->year(date('Y'));
 
-        return $birthday->diffForHumans();
-//        return $birthday->diff(Carbon::now())->days < 1 ? 'today' : $birthday->diffForHumans();
+//        return $birthday->diffForHumans();
+        return $birthday->diff(Carbon::now())->days < 1 ? 'today' : $birthday->diffForHumans();
     }
-
 
     public function getFullNameAttribute()
     {
