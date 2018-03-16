@@ -20,14 +20,19 @@ class EventsController extends Controller
 
     public function index(Request $request)
     {
-        $events = Events::where('end_date', '>=', Carbon::now())->get();
+        if (Auth::user()->isAdmin()) {
+            $events = Events::where('end_date', '>=', Carbon::now())->get();
+        } else {
+            $events = Events::where('end_date', '>=', Carbon::now())->where('user_id', Auth::user()->id)->get();
+        }
+
 
         $users = User::get();
 
-        $_events = $users->map(function($item, $key) {
+        $_events = $users->map(function ($item, $key) {
             $item['type'] = 'Birthday';
-            $item['start_date']= '=)';
-            $item['end_date']= $this->getBirthday($item->birthday);
+            $item['start_date'] = $this->getBirthday($item->birthday);
+            $item['end_date'] = $this->getBirthday($item->birthday);
             $item['user'] = $item;
 
             unset($item['email'], $item['password'], $item['remember_token'], $item['birthday']);
@@ -35,10 +40,10 @@ class EventsController extends Controller
             return $item;
         });
 
-        $events = $events->merge($_events)->sortBy(function ($item){
+        $events = $events->concat($_events)->sortBy(function ($item) {
+
             return strtotime($item['end_date']);
         });
-
 
         return view('events.index', ['events' => $events]);
     }
@@ -76,6 +81,7 @@ class EventsController extends Controller
         $users = User::whereHas('roles', function ($query) {
             $query->where('name', 'employee');
         })->get();
+
         return view('events.edit', ['event' => $event], ['users' => $users]);
     }
 
@@ -93,8 +99,8 @@ class EventsController extends Controller
         $now = Carbon::now()->startOfDay();
         $date = Carbon::parse($value);
         $date->year = $now->year;
-        if($now >= $date){
-            $date->year +=1;
+        if ($now > $date) {
+            $date->year += 1;
         }
         return $date->format('d.m.Y');
     }
