@@ -104,5 +104,4 @@ class EventsController extends Controller
         }
         return $date->format('d.m.Y');
     }
-
 }

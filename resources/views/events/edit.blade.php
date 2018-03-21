@@ -56,9 +56,9 @@
                                 <label for="start_date" class="col-sm-4 col-form-label text-md-right">Start Date</label>
 
                                 <div class="col-md-6">
-                                    <input id="start_date" name="start_date"
+                                    <input type="date" id="start_date" name="start_date"
                                            class="form-control{{ $errors->has('start_date') ? ' is-invalid' : '' }}"
-                                           value="{{ $event->start_date }}" required>
+                                           value="{{ Carbon\Carbon::parse(old('start_date', $event->start_date))->format('Y-m-d') }}" required>
 
                                     @if ($errors->has('start_date'))
                                         <span class="invalid-feedback">
@@ -73,8 +73,9 @@
                                 <label for="end_date" class="col-sm-4 col-form-label text-md-right">End Date</label>
 
                                 <div class="col-md-6">
-                                    <input id="end_date" name="end_date" class="form-control{{ $errors->has('end_date') ? ' is-invalid' : '' }}"
-                                           value="{{ $event->end_date }}" required>
+                                    <input type="date" id="end_date" name="end_date"
+                                           class="form-control{{ $errors->has('end_date') ? ' is-invalid' : '' }}"
+                                           value="{{ Carbon\Carbon::parse(old('end_date', $event->end_date))->format('Y-m-d') }}" required>
 
                                     @if ($errors->has('end_date'))
                                         <span class="invalid-feedback">

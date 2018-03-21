@@ -46,7 +46,7 @@ class ProjectsController extends Controller
         $project->is_finished = false;
         $project->save();
 
-        return redirect('projects');
+        return redirect('projects/index');
 
     }
 
@@ -55,7 +55,7 @@ class ProjectsController extends Controller
         $project = Project::find($request->route('id'));
         $project->delete();
 
-        return redirect('projects');
+        return redirect('projects/index');
     }
 
     public function editProject(Request $request)
@@ -71,7 +71,7 @@ class ProjectsController extends Controller
         $project->fill($request->all());
         $project->save();
 
-        return redirect('projects');
+        return redirect('projects/index');
     }
 
     public function viewProject(Request $request)
