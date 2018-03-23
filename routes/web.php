@@ -19,11 +19,11 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::prefix('projects')->group(function () {
     Route::get('index', 'ProjectsController@index')->name('projects');
-    Route::get('add', 'ProjectsController@addProject')->name('add-project');
-    Route::post('add', 'ProjectsController@saveProject')->name('save-project');
-    Route::get('delete/{id}', 'ProjectsController@deleteProject')->name('delete-project');
-    Route::get('edit/{id}', 'ProjectsController@editProject')->name('edit-project');
-    Route::post('edit', 'ProjectsController@updateProject')->name('update-project');
+    Route::get('add', 'ProjectsController@addProject')->middleware(['admin'])->name('add-project');
+    Route::post('add', 'ProjectsController@saveProject')->middleware(['admin'])->name('save-project');
+    Route::get('delete/{id}', 'ProjectsController@deleteProject')->middleware(['admin'])->name('delete-project');
+    Route::get('edit/{id}', 'ProjectsController@editProject')->middleware(['admin'])->name('edit-project');
+    Route::post('edit', 'ProjectsController@updateProject')->middleware(['admin'])->name('update-project');
     Route::get('view/{id}', 'ProjectsController@viewProject')->name('view-project');
 });
 

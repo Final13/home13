@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +25,14 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = Project::where('user_id', Auth::user()->id)->get();
+        if (Auth::user()->isAdmin())
+        {
+            $projects = Project::all();
+        }
+        else
+        {
+            $projects = Project::where('user_id', Auth::user()->id)->get();
+        }
 
         return view('projects.index', ['projects' => $projects]);
 
@@ -32,7 +40,10 @@ class ProjectsController extends Controller
 
     public function addProject()
     {
-        return view('projects.add');
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'employee');
+        })->get();
+        return view('projects.add', ['users' => $users]);
 
     }
 
@@ -40,9 +51,11 @@ class ProjectsController extends Controller
     {
         $user = Auth::user();
 
+
+
         $project = new Project();
         $project->fill($request->all());
-        $project->user_id = $user->id;
+//        $project->user_id = $user->id;
         $project->is_finished = false;
         $project->save();
 
@@ -62,7 +75,11 @@ class ProjectsController extends Controller
     {
         $project = Project::find($request->route('id'));
 
-        return view('projects.edit', ['project' => $project]);
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'employee');
+        })->get();
+
+        return view('projects.edit', ['project' => $project, 'users' => $users]);
     }
 
     public function updateProject(Request $request)
