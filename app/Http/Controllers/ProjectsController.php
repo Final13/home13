@@ -49,7 +49,7 @@ class ProjectsController extends Controller
 
     public function saveProject(Request $request)
     {
-        $user = Auth::user();
+//        $user = Auth::user();
 
 
 

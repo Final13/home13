@@ -12,7 +12,7 @@
                             @csrf
 
                             <div class="form-group row">
-                                <label for="user" class="col-sm-4 col-form-label text-md-right">User</label>
+                                <label for="user_id" class="col-sm-4 col-form-label text-md-right">User</label>
 
                                 <div class="col-md-6">
                                     <select name="user_id"

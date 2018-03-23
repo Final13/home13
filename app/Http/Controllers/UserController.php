@@ -24,7 +24,11 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::get();
+        $users = User::where('first_name', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')->get();
+
+
+
         return view('users.index', ['users' => $users]);
     }
 
@@ -76,6 +80,5 @@ class UserController extends Controller
 
         return redirect()->route('users');
     }
-
 
 }

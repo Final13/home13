@@ -6,8 +6,23 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Registered users
-                        <a style="float:right;" href="{{ route('add-user') }}">Create new user</a>
+
+                        <form method="GET" action="{{ route('users') }}">
+                            @csrf
+
+                            <div style="float: left; margin: 0 5px" class="form-group row">
+                                    <input placeholder="Search user..." id="search" type="text" class="form-control" name="search">
+                            </div>
+
+                            <div style="float: left; margin-left: 10px" class="form-group row">
+                                    <button type="submit" class="btn btn-primary">
+                                        Search user
+                                    </button>
+                            </div>
+                        </form>
+                        <div style="float:right; margin: 10px" class="form-group row">
+                            <a href="{{ route('add-user') }}">Create new user</a>
+                        </div>
                     </div>
 
 

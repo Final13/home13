@@ -17,7 +17,7 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::prefix('projects')->group(function () {
+Route::prefix('projects')->middleware(['auth'])->group(function () {
     Route::get('index', 'ProjectsController@index')->name('projects');
     Route::get('add', 'ProjectsController@addProject')->middleware(['admin'])->name('add-project');
     Route::post('add', 'ProjectsController@saveProject')->middleware(['admin'])->name('save-project');
@@ -36,7 +36,7 @@ Route::prefix('users')->middleware(['admin'])->group(function () {
     Route::post('edit', 'UserController@updateUser')->name('update-user');
 });
 
-Route::prefix('events')->group(function ()
+Route::prefix('events')->middleware(['auth'])->group(function ()
 {
     Route::get('index', 'EventsController@index')->name('events');
     Route::get('add', 'EventsController@addEvent')->name('add-event');
