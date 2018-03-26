@@ -11,7 +11,8 @@
                             @csrf
 
                             <div style="float: left; margin: 0 5px" class="form-group row">
-                                    <input placeholder="Search user..." id="search" type="text" class="form-control" name="search">
+                                    <input placeholder="Search user..." id="search" type="text" class="form-control"
+                                           name="search" value="{{ request('search') }}">
                             </div>
 
                             <div style="float: left; margin-left: 10px" class="form-group row">
@@ -51,7 +52,7 @@
                         @endforeach
                             </tbody>
                         </table>
-
+                    {{ $users->links() }}
                 </div>
             </div>
         </div>
