@@ -52,7 +52,7 @@
                         @endforeach
                             </tbody>
                         </table>
-                    {{ $users->links() }}
+                    {{ $users->appends(\Illuminate\Support\Facades\Request::only('search'))->links() }}
                 </div>
             </div>
         </div>

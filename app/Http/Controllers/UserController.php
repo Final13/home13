@@ -14,6 +14,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\User;
 use Illuminate\Http\Request;
 use App\Role;
+use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
@@ -24,11 +25,16 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::where('first_name', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')->paginate(5);
+//        $users = User::where('first_name', 'LIKE', '%' . $request->search . '%')
+//            ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')->paginate(5);
 
-
-
+        $search = Input::get('search');
+        if(isset($search)){
+            $users = User::where('first_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')->paginate(5);
+        }else{
+            $users = User::paginate(5);
+        }
         return view('users.index', ['users' => $users]);
     }
 
