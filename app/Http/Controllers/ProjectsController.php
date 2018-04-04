@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Repositories\RepositoryInterface;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\RebootableInterface;
 
 class ProjectsController extends Controller
 {
@@ -14,8 +16,9 @@ class ProjectsController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(RepositoryInterface $repo)
     {
+        $this->projects = $repo;
         $this->middleware('auth');
     }
 
@@ -27,7 +30,7 @@ class ProjectsController extends Controller
     {
         if (Auth::user()->isAdmin())
         {
-            $projects = Project::all();
+            $projects = $this->projects->all();
         }
         else
         {

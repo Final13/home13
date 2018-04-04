@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Events;
 use App\Http\Requests\EventRequest;
+use App\Repositories\RepositoryInterface;
 use App\Role;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class EventsController extends Controller
 {
@@ -20,12 +22,12 @@ class EventsController extends Controller
 
     public function index(Request $request)
     {
+
         if (Auth::user()->isAdmin()) {
             $events = Events::where('end_date', '>=', Carbon::now())->get();
         } else {
             $events = Events::where('end_date', '>=', Carbon::now())->where('user_id', Auth::user()->id)->get();
         }
-
 
         $users = User::get();
 
