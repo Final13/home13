@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events;
 use App\Http\Requests\EventRequest;
-use App\Repositories\RepositoryInterface;
+use App\Repositories\UserRepositoryInterface;
 use App\Role;
 use App\User;
 use Carbon\Carbon;

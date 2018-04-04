@@ -11,15 +11,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Repositories\UserRepositoryInterface;
 use App\User;
 use Illuminate\Http\Request;
 use App\Role;
 use Illuminate\Support\Facades\Input;
 
+/**
+ * @property UserRepositoryInterface user
+ */
 class UserController extends Controller
 {
-    public function __construct()
+    public function __construct(UserRepositoryInterface $user)
     {
+        $this->user = $user;
         $this->middleware('auth');
     }
 
@@ -30,10 +35,9 @@ class UserController extends Controller
 
         $search = Input::get('search');
         if(isset($search)){
-            $users = User::where('first_name', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')->paginate(5);
+            $users = $this->user->userFirstLastNameLike($request);
         }else{
-            $users = User::paginate(5);
+            $users = $this->user->paginate();
         }
         return view('users.index', ['users' => $users]);
     }

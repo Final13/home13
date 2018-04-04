@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
-use App\Repositories\RepositoryInterface;
+use App\Repositories\UserRepositoryInterface;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +16,8 @@ class ProjectsController extends Controller
      *
      * @return void
      */
-    public function __construct(RepositoryInterface $repo)
+    public function __construct()
     {
-        $this->projects = $repo;
         $this->middleware('auth');
     }
 
@@ -30,7 +29,7 @@ class ProjectsController extends Controller
     {
         if (Auth::user()->isAdmin())
         {
-            $projects = $this->projects->all();
+            $projects = Project::all();
         }
         else
         {

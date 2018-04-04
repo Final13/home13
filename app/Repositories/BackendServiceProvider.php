@@ -9,8 +9,8 @@ class BackendServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            'App\Repositories\RepositoryInterface',
-            'App\Repositories\Repository'
+            'App\Repositories\UserRepositoryInterface',
+            'App\Repositories\UserRepository'
         );
     }
 }
