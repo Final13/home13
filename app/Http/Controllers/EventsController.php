@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events;
 use App\Http\Requests\EventRequest;
+use App\Repositories\EventsRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
 use App\Role;
 use App\User;
@@ -12,11 +13,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
+/**
+ * @property EventsRepositoryInterface events
+ * @property UserRepositoryInterface user
+ */
 class EventsController extends Controller
 {
 
-    public function __construct()
+    /**
+     * EventsController constructor.
+     * @param UserRepositoryInterface $user
+     * @param EventsRepositoryInterface $events
+     */
+    public function __construct(UserRepositoryInterface $user, EventsRepositoryInterface $events)
     {
+        $this->user = $user;
+        $this->events = $events;
         $this->middleware('auth');
     }
 
@@ -29,7 +41,7 @@ class EventsController extends Controller
             $events = Events::where('end_date', '>=', Carbon::now())->where('user_id', Auth::user()->id)->get();
         }
 
-        $users = User::get();
+        $users = $this->user->all();
 
         $_events = $users->map(function ($item, $key) {
             $item['type'] = 'Birthday';
@@ -52,9 +64,7 @@ class EventsController extends Controller
 
     public function addEvent(Request $request)
     {
-        $users = User::whereHas('roles', function ($query) {
-            $query->where('name', 'employee');
-        })->get();
+        $users = $this->user->usersWhereNameEmployee();
 
         return view('events.add', ['users' => $users]);
     }
@@ -80,9 +90,7 @@ class EventsController extends Controller
     public function editEvent(Request $request)
     {
         $event = Events::find($request->route('id'));
-        $users = User::whereHas('roles', function ($query) {
-            $query->where('name', 'employee');
-        })->get();
+        $users = $this->user->usersWhereNameEmployee();
 
         return view('events.edit', ['event' => $event], ['users' => $users]);
     }

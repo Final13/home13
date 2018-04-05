@@ -22,4 +22,11 @@ class UserRepository implements UserRepositoryInterface
         return User::where('first_name', 'LIKE', '%' . $request->search . '%')
             ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')->paginate(5);
     }
+
+    public function usersWhereNameEmployee()
+    {
+        return User::whereHas('roles', function ($query) {
+            $query->where('name', 'employee');
+        })->get();
+    }
 }

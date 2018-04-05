@@ -9,5 +9,5 @@ interface UserRepositoryInterface
     public function all();
     public function paginate();
     public function userFirstLastNameLike(Request $request);
-
+    public function usersWhereNameEmployee();
 }

@@ -3,21 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Repositories\ProjectRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\RebootableInterface;
 
+/**
+ * @property UserRepositoryInterface user
+ * @property ProjectRepositoryInterface project
+ */
 class ProjectsController extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param UserRepositoryInterface $user
+     * @param ProjectRepositoryInterface $project
      */
-    public function __construct()
+    public function __construct(UserRepositoryInterface $user, ProjectRepositoryInterface $project)
     {
+        $this->user = $user;
+        $this->project = $project;
         $this->middleware('auth');
     }
 
@@ -29,11 +37,11 @@ class ProjectsController extends Controller
     {
         if (Auth::user()->isAdmin())
         {
-            $projects = Project::all();
+            $projects = $this->project->all();
         }
         else
         {
-            $projects = Project::where('user_id', Auth::user()->id)->get();
+            $projects = $this->project->projectsWhereUserIdGet();
         }
 
         return view('projects.index', ['projects' => $projects]);
@@ -42,9 +50,7 @@ class ProjectsController extends Controller
 
     public function addProject()
     {
-        $users = User::whereHas('roles', function ($query) {
-            $query->where('name', 'employee');
-        })->get();
+        $users = $this->user->usersWhereNameEmployee();
         return view('projects.add', ['users' => $users]);
 
     }
@@ -77,9 +83,7 @@ class ProjectsController extends Controller
     {
         $project = Project::find($request->route('id'));
 
-        $users = User::whereHas('roles', function ($query) {
-            $query->where('name', 'employee');
-        })->get();
+        $users = $this->user->usersWhereNameEmployee();
 
         return view('projects.edit', ['project' => $project, 'users' => $users]);
     }

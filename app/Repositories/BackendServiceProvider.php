@@ -12,5 +12,15 @@ class BackendServiceProvider extends ServiceProvider
             'App\Repositories\UserRepositoryInterface',
             'App\Repositories\UserRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\ProjectRepositoryInterface',
+            'App\Repositories\ProjectRepository'
+        );
+
+        $this->app->bind(
+            'App\Repositories\EventsRepositoryInterface',
+            'App\Repositories\EventsRepository'
+        );
     }
 }
