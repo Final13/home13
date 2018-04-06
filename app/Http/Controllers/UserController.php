@@ -11,20 +11,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Repositories\RoleRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
-use App\User;
 use Illuminate\Http\Request;
-use App\Role;
 use Illuminate\Support\Facades\Input;
 
 /**
  * @property UserRepositoryInterface user
+ * @property RoleRepositoryInterface role
  */
 class UserController extends Controller
 {
-    public function __construct(UserRepositoryInterface $user)
+    /**
+     * UserController constructor.
+     * @param UserRepositoryInterface $user
+     * @param RoleRepositoryInterface $role
+     */
+    public function __construct(UserRepositoryInterface $user, RoleRepositoryInterface $role)
     {
         $this->user = $user;
+        $this->role = $role;
         $this->middleware('auth');
     }
 
@@ -35,7 +41,7 @@ class UserController extends Controller
 
         $search = Input::get('search');
         if(isset($search)){
-            $users = $this->user->userFirstLastNameLike($request);
+            $users = $this->user->getSearchedUsers($request);
         }else{
             $users = $this->user->paginate();
         }
@@ -52,16 +58,10 @@ class UserController extends Controller
     public function saveUser(UserCreateRequest $request)
     {
 
-        $user = User::create([
-            'first_name' => $request['first_name'],
-            'last_name' => $request['last_name'],
-            'email' => $request['email'],
-            'birthday' => $request['birthday'],
-            'password' => bcrypt($request['password']),
-        ]);
+        $user = $this->user->createUser($request);
         $user
             ->roles()
-            ->attach(Role::where('name', 'employee')->first());
+            ->attach($this->role->setRoleEmployee());
 
         return redirect()->route('users');
 
@@ -69,7 +69,7 @@ class UserController extends Controller
 
     public function deleteUser(Request $request)
     {
-        $user = User::find($request->route('id'));
+        $user = $this->user->findUserById($request);
         $user->delete();
 
         return redirect('users/index');
@@ -77,14 +77,14 @@ class UserController extends Controller
 
     public function editUser(Request $request)
     {
-        $user = User::find($request->route('id'));
+        $user = $this->user->findUserById($request);
 
         return view('users.edit', ['user' => $user]);
     }
 
     public function updateUser(UserUpdateRequest $request)
     {
-        $user = User::find($request->input('id'));
+        $user = $this->user->findUserByInputId($request);
         $user->fill($request->all());
         $user->save();
 

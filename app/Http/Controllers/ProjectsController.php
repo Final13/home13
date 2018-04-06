@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Project;
 use App\Repositories\ProjectRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpKernel\RebootableInterface;
 
 /**
  * @property UserRepositoryInterface user
@@ -41,7 +39,7 @@ class ProjectsController extends Controller
         }
         else
         {
-            $projects = $this->project->projectsWhereUserIdGet();
+            $projects = $this->project->getProjectsByUserId();
         }
 
         return view('projects.index', ['projects' => $projects]);
@@ -50,17 +48,13 @@ class ProjectsController extends Controller
 
     public function addProject()
     {
-        $users = $this->user->usersWhereNameEmployee();
+        $users = $this->user->getUsersByName();
         return view('projects.add', ['users' => $users]);
 
     }
 
     public function saveProject(Request $request)
     {
-//        $user = Auth::user();
-
-
-
         $project = new Project();
         $project->fill($request->all());
 //        $project->user_id = $user->id;
@@ -73,7 +67,7 @@ class ProjectsController extends Controller
 
     public function deleteProject(Request $request)
     {
-        $project = Project::find($request->route('id'));
+        $project = $this->project->getProjectsById($request);
         $project->delete();
 
         return redirect('projects/index');
@@ -81,16 +75,16 @@ class ProjectsController extends Controller
 
     public function editProject(Request $request)
     {
-        $project = Project::find($request->route('id'));
+        $project = $this->project->getProjectsById($request);
 
-        $users = $this->user->usersWhereNameEmployee();
+        $users = $this->user->getUsersByName();
 
         return view('projects.edit', ['project' => $project, 'users' => $users]);
     }
 
     public function updateProject(Request $request)
     {
-        $project = Project::find($request->input('id'));
+        $project = $this->project->getProjectsByInputId($request);
         $project->fill($request->all());
         $project->save();
 
@@ -99,7 +93,7 @@ class ProjectsController extends Controller
 
     public function viewProject(Request $request)
     {
-        $project = Project::find($request->route('id'));
+        $project = $this->project->getProjectsById($request);
 
         return view('projects.view', ['project' => $project]);
     }

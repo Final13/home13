@@ -3,21 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Events;
+use App\Repositories\EventsRepositoryInterface;
+use App\Repositories\UserRepositoryInterface;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Project;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @property UserRepositoryInterface user
+ * @property EventsRepositoryInterface events
+ */
 class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param UserRepositoryInterface $user
+     * @param EventsRepositoryInterface $events
      */
-    public function __construct()
+    public function __construct(UserRepositoryInterface $user, EventsRepositoryInterface $events)
     {
+        $this->user = $user;
+        $this->events = $events;
         $this->middleware('auth');
     }
 
@@ -26,17 +33,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
 
 //        $request->user()->authorizeRoles(['manager']);
         if (Auth::user()->isAdmin()) {
-            $events = Events::where('end_date', '>=', Carbon::now())->whereDate("end_date", '<', Carbon::now()->addDays(5))->get();
+            $events = $this->events->getEventsForAdmin();
         } else {
-            $events = Events::where('user_id', Auth::user()->id)->where('end_date', '>=', Carbon::now())
-                ->whereDate("end_date", '<', Carbon::now()->addDays(5))->get();
+            $events = $this->events->getEventsForUser();
         }
-        $users = User::get();
+        $users = $this->user->all();
         $users = $users->filter(function ($item, $key) {
             $item['birthday'] = $this->getBirthday($item->birthday)->format('d.m.Y');
             return $this->getBirthday($item->birthday) < Carbon::now()->endOfDay()->addDays(5) &&

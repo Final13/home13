@@ -6,8 +6,6 @@ use App\Events;
 use App\Http\Requests\EventRequest;
 use App\Repositories\EventsRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
-use App\Role;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,9 +34,9 @@ class EventsController extends Controller
     {
 
         if (Auth::user()->isAdmin()) {
-            $events = Events::where('end_date', '>=', Carbon::now())->get();
+            $events = $this->events->getFutureEvents();
         } else {
-            $events = Events::where('end_date', '>=', Carbon::now())->where('user_id', Auth::user()->id)->get();
+            $events = $this->events->getFutureEventsByUserId();
         }
 
         $users = $this->user->all();
@@ -64,7 +62,7 @@ class EventsController extends Controller
 
     public function addEvent(Request $request)
     {
-        $users = $this->user->usersWhereNameEmployee();
+        $users = $this->user->getUsersByName();
 
         return view('events.add', ['users' => $users]);
     }
@@ -81,7 +79,7 @@ class EventsController extends Controller
 
     public function deleteEvent(Request $request)
     {
-        $event = Events::find($request->route('id'));
+        $event = $this->events->findProjectById($request);
         $event->delete();
 
         return redirect('events/index');
@@ -89,15 +87,15 @@ class EventsController extends Controller
 
     public function editEvent(Request $request)
     {
-        $event = Events::find($request->route('id'));
-        $users = $this->user->usersWhereNameEmployee();
+        $event = $this->events->findProjectById($request);
+        $users = $this->user->getUsersByName();
 
         return view('events.edit', ['event' => $event], ['users' => $users]);
     }
 
     public function updateEvent(EventRequest $request)
     {
-        $event = Events::find($request->input('id'));
+        $event = $this->events->findProjectByInputId($request);
         $event->fill($request->all());
         $event->save();
 
