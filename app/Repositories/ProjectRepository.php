@@ -32,4 +32,24 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         return Project::find($request->input('id'));
     }
+
+    public function saveProject(Request $request)
+    {
+        $project = new Project();
+        $project->fill($request->all());
+        $project->is_finished = false;
+        $project->save();
+
+        return $project;
+
+    }
+
+    public function updateProject(Request $request)
+    {
+        $project = $this->getProjectsByInputId($request);
+        $project->fill($request->all());
+        $project->save();
+
+        return $project;
+    }
 }

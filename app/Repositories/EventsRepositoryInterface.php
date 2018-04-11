@@ -15,4 +15,6 @@ interface EventsRepositoryInterface
     public function getFutureEventsByUserId();
     public function getEventsForAdmin();
     public function getEventsForUser();
+    public function saveEvent(EventRequest $request);
+    public function updateEvent(EventRequest $request);
 }

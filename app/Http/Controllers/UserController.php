@@ -84,9 +84,7 @@ class UserController extends Controller
 
     public function updateUser(UserUpdateRequest $request)
     {
-        $user = $this->user->findUserByInputId($request);
-        $user->fill($request->all());
-        $user->save();
+        $this->user->updateUser($request);
 
         return redirect()->route('users');
     }

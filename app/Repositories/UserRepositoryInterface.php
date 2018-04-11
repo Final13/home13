@@ -15,4 +15,5 @@ interface UserRepositoryInterface
     public function findUserById(Request $request);
     public function findUserByInputId(UserUpdateRequest $request);
     public function createUser(UserCreateRequest $request);
+    public function updateUser(UserUpdateRequest $request);
 }

@@ -11,4 +11,6 @@ interface ProjectRepositoryInterface
     public function getProjectsByUserId();
     public function getProjectsById(Request $request);
     public function getProjectsByInputId(Request $request);
+    public function saveProject(Request $request);
+    public function updateProject(Request $request);
 }

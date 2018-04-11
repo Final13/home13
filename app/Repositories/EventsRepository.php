@@ -52,4 +52,23 @@ class EventsRepository implements EventsRepositoryInterface
         return Events::where('user_id', Auth::user()->id)->where('end_date', '>=', Carbon::now())
             ->whereDate("end_date", '<', Carbon::now()->addDays(5))->get();
     }
+
+    public function saveEvent(EventRequest $request)
+    {
+        $event = new Events();
+        $event->fill($request->all());
+        $event->save();
+
+        return $event;
+
+    }
+
+    public function updateEvent(EventRequest $request)
+    {
+        $event = $this->findProjectByInputId($request);
+        $event->fill($request->all());
+        $event->save();
+
+        return $event;
+    }
 }

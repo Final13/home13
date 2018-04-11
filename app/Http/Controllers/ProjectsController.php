@@ -55,11 +55,7 @@ class ProjectsController extends Controller
 
     public function saveProject(Request $request)
     {
-        $project = new Project();
-        $project->fill($request->all());
-//        $project->user_id = $user->id;
-        $project->is_finished = false;
-        $project->save();
+        $this->project->saveProject($request);
 
         return redirect('projects/index');
 
@@ -84,9 +80,7 @@ class ProjectsController extends Controller
 
     public function updateProject(Request $request)
     {
-        $project = $this->project->getProjectsByInputId($request);
-        $project->fill($request->all());
-        $project->save();
+        $this->project->updateProject($request);
 
         return redirect('projects/index');
     }

@@ -69,9 +69,7 @@ class EventsController extends Controller
 
     public function saveEvent(EventRequest $request)
     {
-        $event = new Events();
-        $event->fill($request->all());
-        $event->save();
+        $this->events->saveEvent($request);
 
         return redirect('events/index');
 
@@ -95,9 +93,7 @@ class EventsController extends Controller
 
     public function updateEvent(EventRequest $request)
     {
-        $event = $this->events->findProjectByInputId($request);
-        $event->fill($request->all());
-        $event->save();
+        $this->events->updateEvent($request);
 
         return redirect('events/index');
     }

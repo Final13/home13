@@ -56,4 +56,13 @@ class UserRepository implements UserRepositoryInterface
             'password' => bcrypt($request['password']),
         ]);
     }
+
+    public function updateUser(UserUpdateRequest $request)
+    {
+        $user = $this->findUserByInputId($request);
+        $user->fill($request->all());
+        $user->save();
+
+        return $user;
+    }
 }
