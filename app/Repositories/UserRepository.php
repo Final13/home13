@@ -2,10 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Http\Requests\UserCreateRequest;
-use App\Http\Requests\UserUpdateRequest;
+use App\Role;
 use App\User;
-use Illuminate\Http\Request;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -20,13 +18,13 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param Request $request
+     * @param $search
      * @return mixed
      */
-    public function getSearchedUsers(Request $request)
+    public function getSearchedUsers($search)
     {
-        return User::where('first_name', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')->paginate(5);
+        return User::where('first_name', 'LIKE', '%' . $search . '%')
+            ->orWhere('last_name', 'LIKE', '%' . $search . '%')->paginate(5);
     }
 
     public function getUsersByName()
@@ -36,33 +34,40 @@ class UserRepository implements UserRepositoryInterface
         })->get();
     }
 
-    public function findUserById(Request $request)
+    public function findUserById($id)
     {
-        return User::find($request->route('id'));
+        return User::find($id);
     }
 
-    public function findUserByInputId(UserUpdateRequest $request)
-    {
-        return User::find($request->input('id'));
-    }
-
-    public function createUser(UserCreateRequest $request)
+    public function createUser($inputs)
     {
         return User::create([
-            'first_name' => $request['first_name'],
-            'last_name' => $request['last_name'],
-            'email' => $request['email'],
-            'birthday' => $request['birthday'],
-            'password' => bcrypt($request['password']),
+            'first_name' => $inputs['first_name'],
+            'last_name' => $inputs['last_name'],
+            'email' => $inputs['email'],
+            'birthday' => $inputs['birthday'],
+            'password' => bcrypt($inputs['password']),
         ]);
     }
 
-    public function updateUser(UserUpdateRequest $request)
+    public function updateUser($inputs)
     {
-        $user = $this->findUserByInputId($request);
-        $user->fill($request->all());
+        $user = $this->findUserById($inputs)->first();
+        $user->fill($inputs);
         $user->save();
 
         return $user;
+    }
+
+    public function saveUser($inputs)
+    {
+
+        $user = $this->createUser($inputs);
+        $user
+            ->roles()
+            ->attach(Role::where('name', 'employee')->first());
+
+        return $user;
+
     }
 }

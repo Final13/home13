@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anka
- * Date: 06.03.2018
- * Time: 13:57
- */
 
 namespace App\Http\Controllers;
 
@@ -41,7 +35,7 @@ class UserController extends Controller
 
         $search = Input::get('search');
         if(isset($search)){
-            $users = $this->user->getSearchedUsers($request);
+            $users = $this->user->getSearchedUsers($search);
         }else{
             $users = $this->user->paginate();
         }
@@ -58,10 +52,7 @@ class UserController extends Controller
     public function saveUser(UserCreateRequest $request)
     {
 
-        $user = $this->user->createUser($request);
-        $user
-            ->roles()
-            ->attach($this->role->setRoleEmployee());
+        $this->user->saveUser($request->all());
 
         return redirect()->route('users');
 
@@ -69,7 +60,7 @@ class UserController extends Controller
 
     public function deleteUser(Request $request)
     {
-        $user = $this->user->findUserById($request);
+        $user = $this->user->findUserById($request->all());
         $user->delete();
 
         return redirect('users/index');
@@ -77,14 +68,14 @@ class UserController extends Controller
 
     public function editUser(Request $request)
     {
-        $user = $this->user->findUserById($request);
+        $user = $this->user->findUserById($request->route('id'));
 
         return view('users.edit', ['user' => $user]);
     }
 
     public function updateUser(UserUpdateRequest $request)
     {
-        $this->user->updateUser($request);
+        $this->user->updateUser($request->all());
 
         return redirect()->route('users');
     }
