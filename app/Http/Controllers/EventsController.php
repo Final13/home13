@@ -69,7 +69,7 @@ class EventsController extends Controller
 
     public function saveEvent(EventRequest $request)
     {
-        $this->events->saveEvent($request);
+        $this->events->saveEvent($request->all());
 
         return redirect('events/index');
 
@@ -77,7 +77,7 @@ class EventsController extends Controller
 
     public function deleteEvent(Request $request)
     {
-        $event = $this->events->findProjectById($request);
+        $event = $this->events->findProjectById($request->route('id'));
         $event->delete();
 
         return redirect('events/index');
@@ -85,7 +85,7 @@ class EventsController extends Controller
 
     public function editEvent(Request $request)
     {
-        $event = $this->events->findProjectById($request);
+        $event = $this->events->findProjectById($request->route('id'));
         $users = $this->user->getUsersByName();
 
         return view('events.edit', ['event' => $event], ['users' => $users]);
@@ -93,7 +93,7 @@ class EventsController extends Controller
 
     public function updateEvent(EventRequest $request)
     {
-        $this->events->updateEvent($request);
+        $this->events->updateEvent($request->all());
 
         return redirect('events/index');
     }

@@ -18,25 +18,28 @@ class ProjectRepository implements ProjectRepositoryInterface
         return Project::paginate(5);
     }
 
+    /**
+     * @return mixed
+     */
     public function getProjectsByUserId()
     {
         return Project::where('user_id', Auth::user()->id)->get();
     }
 
-    public function getProjectsById(Request $request)
+    public function getProjectsById($id)
     {
-        return Project::find($request->route('id'));
+        return Project::find($id);
     }
 
-    public function getProjectsByInputId(Request $request)
+    public function getProjectsByInputId($id)
     {
-        return Project::find($request->input('id'));
+        return Project::find($id);
     }
 
-    public function saveProject(Request $request)
+    public function saveProject($inputs)
     {
         $project = new Project();
-        $project->fill($request->all());
+        $project->fill($inputs);
         $project->is_finished = false;
         $project->save();
 
@@ -44,10 +47,10 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     }
 
-    public function updateProject(Request $request)
+    public function updateProject($inputs)
     {
-        $project = $this->getProjectsByInputId($request);
-        $project->fill($request->all());
+        $project = $this->getProjectsByInputId($inputs)->first();
+        $project->fill($inputs);
         $project->save();
 
         return $project;

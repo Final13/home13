@@ -9,12 +9,12 @@ interface EventsRepositoryInterface
 {
     public function all();
     public function paginate();
-    public function findProjectById(Request $request);
-    public function findProjectByInputId(EventRequest $request);
+    public function findProjectById($id);
+    public function findProjectByInputId($id);
     public function getFutureEvents();
     public function getFutureEventsByUserId();
     public function getEventsForAdmin();
     public function getEventsForUser();
-    public function saveEvent(EventRequest $request);
-    public function updateEvent(EventRequest $request);
+    public function saveEvent($inputs);
+    public function updateEvent($inputs);
 }

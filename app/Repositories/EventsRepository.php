@@ -20,14 +20,14 @@ class EventsRepository implements EventsRepositoryInterface
         return Events::paginate(5);
     }
 
-    public function findProjectById(Request $request)
+    public function findProjectById($id)
     {
-        return Events::find($request->route('id'));
+        return Events::find($id);
     }
 
-    public function findProjectByInputId(EventRequest $request)
+    public function findProjectByInputId($id)
     {
-        return Events::find($request->input('id'));
+        return Events::find($id);
     }
 
     public function getFutureEvents()
@@ -53,20 +53,20 @@ class EventsRepository implements EventsRepositoryInterface
             ->whereDate("end_date", '<', Carbon::now()->addDays(5))->get();
     }
 
-    public function saveEvent(EventRequest $request)
+    public function saveEvent($inputs)
     {
         $event = new Events();
-        $event->fill($request->all());
+        $event->fill($inputs);
         $event->save();
 
         return $event;
 
     }
 
-    public function updateEvent(EventRequest $request)
+    public function updateEvent($inputs)
     {
-        $event = $this->findProjectByInputId($request);
-        $event->fill($request->all());
+        $event = $this->findProjectByInputId($inputs)->first();
+        $event->fill($inputs);
         $event->save();
 
         return $event;

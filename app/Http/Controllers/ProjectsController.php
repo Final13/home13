@@ -55,7 +55,7 @@ class ProjectsController extends Controller
 
     public function saveProject(Request $request)
     {
-        $this->project->saveProject($request);
+        $this->project->saveProject($request->all());
 
         return redirect('projects/index');
 
@@ -63,7 +63,7 @@ class ProjectsController extends Controller
 
     public function deleteProject(Request $request)
     {
-        $project = $this->project->getProjectsById($request);
+        $project = $this->project->getProjectsById($request->route('id'));
         $project->delete();
 
         return redirect('projects/index');
@@ -71,7 +71,7 @@ class ProjectsController extends Controller
 
     public function editProject(Request $request)
     {
-        $project = $this->project->getProjectsById($request);
+        $project = $this->project->getProjectsById($request->route('id'));
 
         $users = $this->user->getUsersByName();
 
@@ -80,14 +80,14 @@ class ProjectsController extends Controller
 
     public function updateProject(Request $request)
     {
-        $this->project->updateProject($request);
+        $this->project->updateProject($request->all());
 
         return redirect('projects/index');
     }
 
     public function viewProject(Request $request)
     {
-        $project = $this->project->getProjectsById($request);
+        $project = $this->project->getProjectsById($request->route('id'));
 
         return view('projects.view', ['project' => $project]);
     }
