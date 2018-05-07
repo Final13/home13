@@ -32,7 +32,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td><a href="{{ route('view-project', ['id' => $project->id]) }}">{{ $project->name }}</a>
                                 </td>
-                                <td>{{ $project->user->full_name }}</td>
+                                <td>{{ $project->user->full_name ?? 'USER DELETED!' }} </td>
                                 <td>{{ $project->start_date }}</td>
                                 <td>{{ $project->end_date }}</td>
                                 <td>

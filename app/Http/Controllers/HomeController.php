@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events;
+use App\Jobs\SendEmailJob;
 use App\Repositories\EventsRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -52,7 +51,15 @@ class HomeController extends Controller
         $users = $users->sortBy(function ($item) {
 
             return strtotime($item['birthday']);
-        });
+        })->all();
+
+        if (!empty($users))
+        {
+//            $job = (new SendEmailJob())
+//            ->delay(Carbon::now()->addSecond());
+//            $this->dispatch($job);
+            $this->dispatch((new SendEmailJob())->delay(Carbon::now()->addSeconds(3)));
+        }
 
         return view('home', ['events' => $events, 'users' => $users]);
     }

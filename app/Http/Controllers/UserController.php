@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Jobs\BirthdayMailing;
 use App\Repositories\RoleRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\Request;
@@ -60,7 +61,7 @@ class UserController extends Controller
 
     public function deleteUser(Request $request)
     {
-        $user = $this->user->findUserById($request->all());
+        $user = $this->user->findUserById($request->route('id'));
         $user->delete();
 
         return redirect('users/index');

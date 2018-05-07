@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Project;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {

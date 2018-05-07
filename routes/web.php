@@ -17,7 +17,8 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::prefix('projects')->middleware(['auth'])->group(function () {
+Route::prefix('projects')->middleware(['auth'])->group(function ()
+{
     Route::get('index', 'ProjectsController@index')->name('projects');
     Route::get('add', 'ProjectsController@addProject')->middleware(['admin'])->name('add-project');
     Route::post('add', 'ProjectsController@saveProject')->middleware(['admin'])->name('save-project');
@@ -27,7 +28,8 @@ Route::prefix('projects')->middleware(['auth'])->group(function () {
     Route::get('view/{id}', 'ProjectsController@viewProject')->name('view-project');
 });
 
-Route::prefix('users')->middleware(['admin'])->group(function () {
+Route::prefix('users')->middleware(['admin'])->group(function ()
+{
     Route::get('index', 'UserController@index')->name('users');
     Route::get('add', 'UserController@addUser')->name('add-user');
     Route::post('add', 'UserController@saveUser')->name('save-user');
@@ -45,4 +47,10 @@ Route::prefix('events')->middleware(['auth'])->group(function ()
     Route::get('edit/{id}', 'EventsController@editEvent')->name('edit-event');
     Route::post('edit', 'EventsController@updateEvent')->name('update-event');
     Route::get('view/{id}', 'EventsController@viewEvent')->name('view-event');
+});
+
+Route::prefix('email')->middleware(['auth'])->group(function ()
+{
+    Route::get('email', 'EmailController@sendEmail')->name('email');
+    Route::get('index', 'EmailController@index')->name('email-page');
 });
