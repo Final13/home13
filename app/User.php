@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * @property mixed birthday
+ * @property mixed full_name
  */
 class User extends Authenticatable
 {

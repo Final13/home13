@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,13 +13,12 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailable;
 use Illuminate\Contracts\Mail\Mailer;
 
+
 /**
- * @property User user
  */
 class SendEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     /**
      * Create a new job instance.
      */
@@ -30,27 +30,32 @@ class SendEmailJob implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param Mailer $mailer
+     * @param User $user
      * @return void
      */
-    public function handle(Mailer $mailer)
-    {
-        $users = User::all();
-        foreach ($users as $user)
-        {
-            if (!empty($user->email)) {
-                Mail::to($user->email)->send(new SendMailable());
-//                $mailer->send('email.index', ['user' => $this->user], function ($m) {
-//                    //
-//                });
-            }
-        }
-
-//        Mail::to('faxtalk666@gmail.com')->send(new SendMailable());
-    }
-
 //    public function handle()
 //    {
-//        Mail::to('faxtalk666@gmail.com')->send(new SendMailable());
+//        $users = User::all();
+//        foreach ($users as $user)
+//        {
+//            if (!empty($user->email)) {
+//                Mail::to($user->email)->send(new SendMailable($user));
+////                $mailer->send('email.index', ['user' => $this->user], function ($m) {
+////                    //
+////                });
+//            }
+//        }
+//
+////        Mail::to('faxtalk666@gmail.com')->send(new SendMailable($user));
 //    }
+
+    public function handle()
+    {
+        $users = User::all();
+
+        foreach ($users as $user)
+        {
+            Mail::to($user)->send(new SendMailable($user));
+        }
+    }
 }
