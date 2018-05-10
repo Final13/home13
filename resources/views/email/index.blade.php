@@ -3,16 +3,18 @@
 <table>
     <thead>
     <tr>
-        <th>Name</th>
+        <th>Full Name</th>
+        <th>Email</th>
         <th>Birthday</th>
     </tr>
     </thead>
     <tbody>
 {{--    @foreach($users as $user)--}}
-        {{--<tr>--}}
-            {{--<td>{{ $fullName }}</td>--}}
-            {{--<td>{{ $birthday }}</td>--}}
-        {{--</tr>--}}
+        <tr>
+            <td>{{ $user->full_name }}</td>
+            <td>{{ $user->email }}</td>
+            <td>{{ $user->birthday }}</td>
+        </tr>
     {{--@endforeach--}}
     </tbody>
 </table>
