@@ -9,12 +9,12 @@
     </tr>
     </thead>
     <tbody>
-{{--    @foreach($users as $user)--}}
+    @foreach($birthdayUsers as $user)
         <tr>
             <td>{{ $user->full_name }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->birthday }}</td>
         </tr>
-    {{--@endforeach--}}
+    @endforeach
     </tbody>
 </table>

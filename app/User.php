@@ -92,4 +92,16 @@ class User extends Authenticatable
     {
         return "{$this->first_name} {$this->last_name}";
     }
+
+    public function scopeGetBirthdayUsersForMailing($query, $type)
+    {
+        return $query->whereDay('birthday', '=', Carbon::now()->endOfDay()->addDays($type)->day)
+            ->whereMonth('birthday', '=', Carbon::now()->endOfDay()->addDays($type)->month);
+    }
+
+    public function scopeGetNotifyUsersForMailing($query, $type)
+    {
+        return $query->whereDay('birthday', '<>', Carbon::now()->endOfDay()->addDays($type)->day)
+            ->whereMonth('birthday', '<>', Carbon::now()->endOfDay()->addDays($type)->month);
+    }
 }

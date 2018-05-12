@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailable;
@@ -16,7 +17,6 @@ use Illuminate\Contracts\Mail\Mailer;
 
 
 /**
- * @property  users
  */
 class SendEmailJob implements ShouldQueue
 {
@@ -24,7 +24,6 @@ class SendEmailJob implements ShouldQueue
 
     /**
      * Create a new job instance.
-     * @param $users
      */
     public function __construct()
     {
@@ -53,26 +52,26 @@ class SendEmailJob implements ShouldQueue
 ////        Mail::to('faxtalk666@gmail.com')->send(new SendMailable($user));
 //    }
 
+    /**
+     *
+     */
     public function handle()
     {
-        $users = User::all();
-        $users = $users->filter(function ($item, $key) {
+        $birthdayUsers = User::GetBirthdayUsersForMailing(5)->get();
+
+        $birthdayUsers = $birthdayUsers->filter(function ($item, $key) {
             $item['birthday'] = $this->getBirthday($item->birthday)->format('d.m.Y');
-            return $this->getBirthday($item->birthday) < Carbon::now()->endOfDay()->addDays(5) &&
-                $this->getBirthday($item->birthday) >= Carbon::now()->startOfDay();
+            return $item;
         });
-        $users = $users->sortBy(function ($item) {
 
-            return strtotime($item['birthday']);
-        })->all();
+        $notifyUsers = User::GetNotifyUsersForMailing(5)->get();
 
-        foreach ($users as $user)
-        {
-            if (!empty($user->email))
+
+            if (!empty($birthdayUsers))
             {
-                Mail::to(User::all()->where('email', '!=', $user->email))->send(new SendMailable($user));
+                Mail::to($notifyUsers)->send(new SendMailable($birthdayUsers));
             }
-        }
+
     }
 
     private function getBirthday($value)

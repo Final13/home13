@@ -10,21 +10,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 
 /**
- * @property User user
  */
 class SendMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $birthdayUsers;
 
     /**
      * Create a new message instance.
-     * @param $user
+     * @param $birthdayUsers
      */
-    public function __construct($user)
+    public function __construct($birthdayUsers)
     {
-        $this->user = $user;
+        $this->birthdayUsers = $birthdayUsers;
     }
 
     /**
@@ -34,6 +33,6 @@ class SendMailable extends Mailable
      */
     public function build()
     {
-        return $this->view('email.index')->with(['user' => $this->user]);
+        return $this->view('email.index')->with(['birthdayUsers' => $this->birthdayUsers]);
     }
 }

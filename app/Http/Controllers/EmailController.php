@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SendEmailJob;
 use App\Repositories\UserRepositoryInterface;
+use App\User;
 use Carbon\Carbon;
 
 /**
@@ -34,29 +35,13 @@ class EmailController extends Controller
         return view('email.index');
     }
 
-//    public function sendEmail()
-//    {
-//
-////        $emailJob = (new SendEmailJob())->delay(Carbon::now()->addSeconds(3));
-////        dispatch($emailJob);
-//        $users = $this->user->all();
-//        $users = $users->filter(function ($item, $key) {
-//            $item['birthday'] = $this->getBirthday($item->birthday)->format('d.m.Y');
-//            return $this->getBirthday($item->birthday) < Carbon::now()->endOfDay()->addDays(5) &&
-//                $this->getBirthday($item->birthday) >= Carbon::now()->startOfDay();
-//        });
-//
-//        $users = $users->sortBy(function ($item) {
-//
-//            return strtotime($item['birthday']);
-//        })->all();
-//
-//        if ($users > 0)
-//        {
-//            $this->dispatch((new SendEmailJob())->delay(3));
-//        }
+    public function sendEmail()
+    {
+        $birthdayUsers = User::GetNotifyUsersForMailing()->get();
+        $notifyUsers = User::GetNotifyUsersForMailing()->get();
+        dd($notifyUsers);
 
-//    }
+    }
 
     private function getBirthday($value)
     {

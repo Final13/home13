@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\SendEmailJob;
 use App\Repositories\EventsRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,17 +42,34 @@ class HomeController extends Controller
         } else {
             $events = $this->events->getEventsForUser();
         }
-        $users = $this->user->all();
+//        $users = $this->user->all();
+//        $users = $users->filter(function ($item, $key) {
+//            $item['birthday'] = $this->getBirthday($item->birthday)->format('d.m.Y');
+//            return $this->getBirthday($item->birthday) < Carbon::now()->endOfDay()->addDays(5) &&
+//                    $this->getBirthday($item->birthday) >= Carbon::now()->startOfDay();
+//        });
+
+        $users = User::
+            whereDay('birthday', '<=', Carbon::now()->endOfDay()->addDays(5)->day)
+            ->whereDay('birthday', '>=', Carbon::now()->startOfDay()->day)
+            ->whereMonth('birthday', '<=', Carbon::now()->endOfDay()->addDays(5)->month)
+            ->whereMonth('birthday', '>=', Carbon::now()->startOfDay()->month)
+            ->get();
+
+
+
         $users = $users->filter(function ($item, $key) {
             $item['birthday'] = $this->getBirthday($item->birthday)->format('d.m.Y');
-            return $this->getBirthday($item->birthday) < Carbon::now()->endOfDay()->addDays(5) &&
-                    $this->getBirthday($item->birthday) >= Carbon::now()->startOfDay();
+            return $item;
         });
-
-        $users = $users->sortBy(function ($item) {
-
-            return strtotime($item['birthday']);
-        })->all();
+//        $birthdayUsers = User::GetBirthdayUsersForMailing(5)->get();
+//
+//        $notifyUsers = User::GetNotifyUsersForMailing(5)->get();
+//        dd($birthdayUsers);
+//        $users = $users->sortBy(function ($item) {
+//
+//            return strtotime($item['birthday']);
+//        })->all();
 
         if (!empty($users))
         {
